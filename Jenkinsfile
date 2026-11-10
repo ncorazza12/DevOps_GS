@@ -34,7 +34,7 @@ pipeline {
                     python3 -m venv .venv
                     . .venv/bin/activate
                     pip install --quiet -r requirements-dev.txt
-                    pytest --cov=app --cov-report=xml --cov-report=term --junitxml=pytest-report.xml
+                    python -m pytest --cov=app --cov-report=xml --cov-report=term --junitxml=pytest-report.xml
                 '''
             }
             post {
