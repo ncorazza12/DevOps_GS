@@ -236,6 +236,20 @@ Observações:
 
 ---
 
+## 🖼️ Evidências (prints)
+
+Os arquivos ficam na pasta [`Evidencias/`](Evidencias/).
+
+### Histórico de builds no Jenkins
+
+![Histórico de builds no Jenkins](Evidencias/DevOps%20-%20Print_Jenkins_Builds.jpeg)
+
+### Painel do SonarQube
+
+![Painel do SonarQube](Evidencias/DevOps%20-%20Print_SonarQube.jpeg)
+
+---
+
 ## 🔧 Troubleshooting
 
 Histórico completo: **28 builds, 24 falhas e 4 sucessos**. Recorte relevante (#18 a #28): **11 builds, 7 falhas e 4 sucessos**.
