@@ -36,7 +36,7 @@ def obter(ocorrencia_id: int):
     return _db[ocorrencia_id]
 
 
-@app.post("/ocorrencias", status_code=201)
+@app.post("/ocorrencias", status_code=200)
 def criar(payload: OcorrenciaIn):
     global _next_id
     nova = Ocorrencia(id=_next_id, **payload.model_dump())
