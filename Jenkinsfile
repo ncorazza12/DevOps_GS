@@ -12,7 +12,7 @@
     }
 
     environment {
-        IMAGE_NAME = 'ncorazza12/civictech-api'
+        IMAGE_NAME = 'corazza012/civictech-api'
         APP_URL    = 'http://host.docker.internal:8000'
     }
 
