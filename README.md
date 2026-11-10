@@ -210,7 +210,7 @@ wsl -d docker-desktop sysctl -w vm.max_map_count=262144
 - Análise concluída com sucesso no projeto `civictech-api`.
 - **Quality Gate: OK** (perfil "Sonar way", com webhook para o Jenkins).
 
-### Trivy (imagem de produção, build #28)
+### Trivy (imagem de produção, builds #28 a #30)
 
 - **0 CRITICAL** e **49 HIGH**, todos no sistema base Debian (zlib1g, util-linux, libsystemd0, perl-base, ncurses, entre outros).
 - Dos 49 HIGH, **2 têm correção disponível** (zlib1g) e **47 não têm correção publicada** (`affected` / `fix_deferred`).
@@ -230,7 +230,7 @@ A equipe provou, com falhas **controladas e intencionais**, que a pipeline realm
 
 Observações:
 
-- Os builds #24, #25, #26, #27 e #28 foram disparados automaticamente (`Started by an SCM change`).
+- Os builds #24 a #30 foram disparados automaticamente (`Started by an SCM change`).
 - No #27 foi usada **temporariamente** uma imagem base antiga e vulnerável (`python:3.8-slim-buster`), revertida no commit seguinte. **A imagem de produção não contém vulnerabilidades CRITICAL.**
 - Em ambas as falhas, nenhuma imagem foi publicada e o container em execução permaneceu na versão anterior.
 
@@ -240,19 +240,53 @@ Observações:
 
 Os arquivos ficam na pasta [`Evidencias/`](Evidencias/).
 
-### Histórico de builds no Jenkins
+### Figura 1 — SonarQube: atividade das análises
 
-![Histórico de builds no Jenkins](Evidencias/DevOps%20-%20Print_Jenkins_Builds.jpeg)
+![Figura 1 — SonarQube: atividade das análises](Evidencias/sonarqube-activity.jpeg)
 
-### Painel do SonarQube
+### Figura 2A — Build #27: Trivy detecta 3 CRITICAL
 
-![Painel do SonarQube](Evidencias/DevOps%20-%20Print_SonarQube.jpeg)
+Demonstração do bloqueio: no console, o Trivy lista 2 CRITICAL no Debian (libdb5.3 e zlib1g) e 1 no Python (anyio 4.5.2, correção na 4.14.2).
+
+![Figura 2A — Console do build #27 com os CRITICAL detectados](Evidencias/console-27-criticals.png)
+
+### Figura 2B — Build #27: pipeline reprovada
+
+O mesmo build termina com `ERROR: script returned exit code 1` e `Finished: FAILURE`, o que comprova o bloqueio.
+
+![Figura 2B — Console do build #27 com o erro e o FAILURE](Evidencias/console-27-error.png)
+
+### Figura 3 — Build #24: falha de teste
+
+Estágio Testes reprovado; os 7 estágios seguintes não foram executados.
+
+![Figura 3 — Stage View do build #24](Evidencias/stage-24-teste-vermelho.png)
+
+### Figura 4 — Build #27: falha no Trivy
+
+Estágio Trivy reprovado; Publicação, Deploy e Validação não foram executados.
+
+![Figura 4 — Stage View do build #27](Evidencias/stage-27-trivy-vermelho.png)
+
+### Figura 5 — Docker Hub: tags publicadas
+
+Tags presentes: `30-6ee8908`, `29-0fc0f5b`, `28-81a6af3`, `26-984c6a7`, `25-175a9ab`, `23-5857268` e `latest`. As tags `24-060d0a1` e `27-3fc1b0d` **não existem**, pois os builds #24 e #27 foram interrompidos antes da publicação.
+
+![Figura 5 — Tags da imagem no Docker Hub](Evidencias/dockerhub-tags.png)
+
+### Figura 6 — Histórico de builds no Jenkins
+
+Builds #1 a #29. O print foi capturado antes do build #30, disparado pelo commit que o adicionou ao README. O build #31 e os seguintes são apenas de documentação.
+
+![Figura 6 — Histórico de builds no Jenkins](Evidencias/jenkins-builds.jpeg)
 
 ---
 
 ## 🔧 Troubleshooting
 
-Histórico completo: **28 builds, 24 falhas e 4 sucessos**. Recorte relevante (#18 a #28): **11 builds, 7 falhas e 4 sucessos**.
+Histórico completo (#1 a #30): **30 builds, 24 falhas e 6 sucessos**. Recorte relevante (#18 a #30): **13 builds, 7 falhas e 6 sucessos**.
+
+**Contagem até o build #30 (marco das evidências).** O build #31 e os seguintes são apenas de documentação (README e prints) e não alteram a contagem nem as conclusões.
 
 | Builds | Tipo | Sintoma | Causa raiz | Correção |
 |---|---|---|---|---|
