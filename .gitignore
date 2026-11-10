@@ -1,7 +1,11 @@
-
 __pycache__/
 *.pyc
 .coverage
 coverage.xml
 .venv/
 .scannerwork/
+.pytest_cache/
+pytest-report.xml
+trivy-report.txt
+trivy-report.json
+.env
