@@ -1,5 +1,8 @@
 ﻿services:
   api:
+    image: ${IMAGE_NAME:-civictech-api}:${IMAGE_TAG:-local}
     build: .
+    container_name: civictech-api
     ports:
       - "8000:8000"
+    restart: unless-stopped
